@@ -2,4 +2,4 @@
 This BOOKMARKLET downloads instagrams pics, videos, and stories
 (not yet supported for videos outside of stories)
 
-[An Internal Link](https://link-url-here.org)
+[An Internal Link](javascript:alert("test"))
