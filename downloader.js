@@ -13,6 +13,7 @@ function openURL(){
     // Determine if the user is viewing a story or not
     var title = document.querySelector("title")
     if(title.textContent.includes("• Instagram")){
+
         // we are on stories
         console.log("we are on stories")
         var video_src = document.querySelectorAll("section video source")
@@ -31,24 +32,30 @@ function openURL(){
         // Determine wich of three possible ways the user views the image
         var pr = document.querySelectorAll("[role='presentation']")
         if (pr.length===2){ // the regular, with multiple photos
+
+            // problem when a) more than two dots
+            // b) the responsive for small width
+
+            console.log("Regular view, multiple photos")
             var imgs = pr[1].querySelectorAll("img")
         
             var img_index=0;
-        
             var dots = document.querySelectorAll("div.JSZAJ._3eoV-.IjCL9.WXPwG div")
             if (dots){
                 dots.forEach( (dot,index) => {
                     if (dot.classList.contains('XCodT')){
-                        img_index = index;
+                        img_index = index; // Works fine!
                     }
                 } )
             }
         
             var img = imgs[img_index];
-            console.log("url: ", img )
+            // console.log("url: ", img )
             window.open(img.src)
 
         } else if (pr.length===3) { // the popup
+            console.log("Pop up view")
+
             var divs = pr[2].querySelectorAll(".KL4Bh")
             if (divs.length===1){
                 var img = div[0].querySelectorAll("img")
@@ -66,16 +73,18 @@ function openURL(){
                     } )
                 }
                 var img = div[img_index].querySelectorAll("img")
-                console.log("url: ", img[0])
+                // console.log("url: ", img[0])
                 window.open(img[0].src)
             }
             
         }
         else {
             // the regular, no multiple photos
+            console.log("Regular view, no multi photos")
+
             var div = pr[0].querySelectorAll(".KL4Bh")
             var img = div[0].querySelectorAll("img")
-            console.log("url: ", img[0])
+            //cconsole.log("url: ", img[0])
             window.open(img[0].src)
 
         }
