@@ -8,7 +8,9 @@ stories (photos or videos)
 */
 
 
-function openURL(){
+function download(){
+
+    var final_src;
 
     // Determine if the user is viewing a story or not
     var title = document.querySelector("title")
@@ -19,10 +21,11 @@ function openURL(){
         var video_src = document.querySelectorAll("section video source")
         // Determine if the story is a video or an image
         if (video_src.length>0){
-            window.open(video_src[0].src)
+            // window.open(video_src[0].src)
         } else {
             var img = document.querySelectorAll("section div.qbCDp img")
-            window.open(img[0].src)
+            // window.open(img[0].src)
+            final_src = img[0].src;
         }
 
     } else {
@@ -51,7 +54,8 @@ function openURL(){
         
             var img = imgs[img_index];
             // console.log("url: ", img )
-            window.open(img.src)
+            // // window.open(img.src)
+            final_src = img.src;
 
         } else if (pr.length===3) { // the popup
             console.log("Pop up view")
@@ -60,7 +64,7 @@ function openURL(){
             if (divs.length===1){
                 var img = div[0].querySelectorAll("img")
                 console.log("url: ", img[0])
-                window.open(img[0].src)
+                // window.open(img[0].src)
             } else {
                 var img_index=0;
         
@@ -74,7 +78,8 @@ function openURL(){
                 }
                 var img = div[img_index].querySelectorAll("img")
                 // console.log("url: ", img[0])
-                window.open(img[0].src)
+                // // window.open(img[0].src)
+                final_src = img[0].src
             }
             
         }
@@ -85,8 +90,31 @@ function openURL(){
             var div = pr[0].querySelectorAll(".KL4Bh")
             var img = div[0].querySelectorAll("img")
             //cconsole.log("url: ", img[0])
-            window.open(img[0].src)
-
+            // window.open(img[0].src)
+            final_src = img[0].src
         }
     }
+
+    if(final_src){
+
+        // create blob and then download
+        fetch(final_src).then(function(response) {
+            console.log(response.type); // returns basic by default
+            response.blob().then(function(myBlob) {
+            console.log("Blob: ", myBlob)
+            var objectURL = URL.createObjectURL(myBlob);
+            downloadURI(objectURL,"download")
+            });
+          });
+    }
 }
+
+function downloadURI(uri, name) {
+    var link = document.createElement("a");
+    link.download = name;
+    link.href = uri;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    delete link;
+  }
